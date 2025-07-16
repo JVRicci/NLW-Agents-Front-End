@@ -7,6 +7,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
 import { Button } from './ui/button'
+import { useCreateRoom } from '../http/use-create-rooms'
 
 const createRoomSchema = z.object({
     name: z.string().min(3, {message: 'Inclua no minimo 3 caracteres'}),
@@ -17,12 +18,20 @@ const createRoomSchema = z.object({
 type CreateRoomFormData = z.infer<typeof createRoomSchema>
 
 export function CreateRoomForm () {
+    // Responsavel por executar a mutation do metodo post de registro de sala informaçoes
+    const { mutateAsync: createRoom } = useCreateRoom()
+
     const createRoomForm = useForm<CreateRoomFormData>({
-        resolver: zodResolver(createRoomSchema)
+        resolver: zodResolver(createRoomSchema),
+        defaultValues: {
+            name: "",
+            description: ""
+        }
     })
 
-    function handleCreateRoom(data: CreateRoomFormData) {
-        console.log(data)
+    async function handleCreateRoom({ name, description } : CreateRoomFormData) {
+        await createRoom({ name, description })
+        await createRoomForm.reset()
     }
 
     return (
@@ -35,7 +44,7 @@ export function CreateRoomForm () {
                 <Form {...createRoomForm}>
                     <form 
                         onSubmit={createRoomForm.handleSubmit(handleCreateRoom)}
-                        className="flex flex-col gap-4">
+                        className="flex flex-col gap-3">
                             <FormField
                                 control={createRoomForm.control}
                                 name="name"
