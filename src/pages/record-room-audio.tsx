@@ -93,12 +93,12 @@ export function RecordRoomAudio(){
                 !isRecording 
                     ? ( 
                         <>
-                            <Button onClick={startRecording}>Gravar audio</Button> <p>Gravando...</p>
+                            <Button onClick={startRecording}>Gravar audio</Button> <p>Pausado...</p>
                         </>
                     )
                     : ( 
                         <>
-                            <Button onClick={stopRecording}>Pausar gravação</Button><p>Pausado</p> 
+                            <Button onClick={stopRecording}>Pausar gravação</Button><p>Gravando...</p> 
                         </>
                     )
             }
