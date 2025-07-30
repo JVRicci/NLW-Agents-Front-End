@@ -26,5 +26,15 @@ export type CreateQuestionRequest  = {
 }
 
 export type CreateQuestionResponse = {
-    roomId: string
+    questionId: any | string
+    roomId: string,
+    answer: string | null
 }
+
+export type GetRoomQuestionsResponse = Array<{
+id: string
+question: string
+answer: string | null
+createdAt: string
+isGeneratingAnswer?: boolean
+}>
